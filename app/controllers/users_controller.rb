@@ -41,6 +41,10 @@ class UsersController < ApplicationController
     end
   end
 
+  def generate_pairs
+    @users = User.all.shuffle
+  end
+
   private
     def user_params
       params[:user].permit(:firstName, :secondName)
