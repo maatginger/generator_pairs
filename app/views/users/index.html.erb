@@ -16,11 +16,11 @@
       <td>
         <%= user.secondName %>
       </td>
-      <td>
-        <%= link_to 'Edit', edit_user_path(user) %>
+      <td align="right">
+        <%= link_to 'Edit', edit_user_path(user), class: "btn btn-default"  %>
       </td>
       <td>
-        <%= link_to 'Destroy', user_path(user), method: :delete, data: {confirm: 'Are your sure?'} %>
+        <%= link_to 'Destroy', user_path(user), method: :delete, class: "btn btn-danger", data: {confirm: 'Are your sure?'} %>
       </td>
     </tr>
     <% end %>
