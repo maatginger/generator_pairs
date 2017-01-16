@@ -3,8 +3,9 @@ require 'support/factory_girl'
 require 'database_cleaner'
 
 DatabaseCleaner.strategy = :truncation
-feature 'Create user' do
- scenario 'add new user to the list' do
+
+describe 'Create user' do
+ it 'add new user to the list' do
    FactoryGirl.create(:user)
 
    visit root_path
@@ -15,10 +16,10 @@ feature 'Create user' do
  end
 end
 
-feature 'Modify user' do
-  scenario 'See modified user' do
-    FactoryGirl.create(:user)
 
+describe 'Modify user' do
+  it 'See modified user' do
+    FactoryGirl.create(:user)
     visit root_path
     within(find(:xpath,"//tr[td//text()[contains(., 'testname')]]")) do
       click_link 'Edit'
@@ -34,8 +35,8 @@ feature 'Modify user' do
   end
 end
 
-feature 'Destroy user' do
-  scenario 'See user was destroyed' do
+describe 'Destroy user' do
+  it 'See user was destroyed' do
     FactoryGirl.create(:user)
     visit root_path
 
@@ -49,8 +50,8 @@ feature 'Destroy user' do
   end
 end
 
-feature "Can't create user with empty fields" do
-  scenario 'Fail to create user with empty field' do
+describe "Can't create user with empty fields" do
+  it 'Fail to create user with empty field' do
     visit new_user_path
 
     fill_in 'user_firstName', with: ''
@@ -62,8 +63,8 @@ feature "Can't create user with empty fields" do
   end
 end
 
-feature "Can't create duplicate user" do
-  scenario 'Fail to create duplicate user' do
+describe "Can't create duplicate user" do
+  it 'Fail to create duplicate user' do
   visit new_user_path
 
   fill_in 'user_firstName', with: 'duplicateName'
@@ -84,25 +85,29 @@ feature "Can't create duplicate user" do
   end
 end
 
-feature "Random pair generator works property" do
-  scenario 'Random pair generator working' do
+describe "Random pair generator works property" do
+  it 'Random pair generator working' do
     (1..6).each do |user|
       FactoryGirl.create(:user, firstName: "#{user}", secondName: "#{user}")
     end
     result = 0
     visit generate_pairs_users_path
-    (1..100).each do
+    (1..120).each do
       user = all("tr td")[0].text
       if user == "1 1"
         result +=1
       end
-      visit generate_pairs_users_path
+      click_on('Generate')
     end
-    result = (100/result).round
-    #lambda { whatever.merge }.should raise_error
+    p result
+    result = (result/120.0).round(2)
+    p result
+    if result > 0.17 || result < 0.16
+      raise Exception.new('Your pairs generator is very very very BAAAAAD!')
+    end
     # visit generate_pairs_users_path
     # page.save_screenshot('1.png')
-    # page.find_by_id('qwe').click
+    #   click_on 'Generate'
     # page.save_screenshot('2.png')
   end
 end
