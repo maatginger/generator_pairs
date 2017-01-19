@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  http_basic_authenticate_with name: Figaro.env.administrator_login, password: Figaro.env.administrator_password
 
   before_action :find_user, only: [:edit, :update, :show, :destroy]
 
@@ -43,6 +44,10 @@ class UsersController < ApplicationController
 
   def generate_pairs
     @users = User.all.shuffle
+    if @users.count % 2 != 0
+      flash.alert = "Users count is odd"
+      redirect_to root_path
+    end
   end
 
   private

@@ -1,0 +1,18 @@
+%table.table
+  - (0..(@users.size/2)-1).each do |index|
+    %thead
+      %tr
+        %th= "#{index+1} Pair"
+    %tbody
+      %tr
+        %td
+          /
+            <haml:loud> @users[0].firstName </haml:loud>
+            <haml:loud> @users[0].secondName </haml:loud>
+          = @users[index].firstName
+          = @users[index].secondName
+      %tr
+        %td
+          = @users[index+@users.size/2].firstName
+          = @users[index+@users.size/2].secondName
+= link_to "Generate", generate_pairs_users_path, class: "btn btn-primary", data: {turbolinks: false}
