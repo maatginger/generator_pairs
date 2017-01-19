@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  http_basic_authenticate_with name: Figaro.env.administrator_login, password: Figaro.env.administrator_password
+  http_basic_authenticate_with name: Figaro.env.ADM_LOG, password: Figaro.env.ADM_PASS
 
   before_action :find_user, only: [:edit, :update, :show, :destroy]
 

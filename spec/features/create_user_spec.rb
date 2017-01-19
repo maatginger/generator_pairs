@@ -3,7 +3,7 @@ require 'support/factory_girl'
 require 'database_cleaner'
 
 def authenticate(url)
-  page.driver.basic_authorize(Figaro.env.administrator_login, Figaro.env.administrator_password) if page.driver.respond_to?(:basic_authorize)
+  page.driver.basic_authorize(Figaro.env.ADM_LOG, Figaro.env.ADM_PASS) if page.driver.respond_to?(:basic_authorize)
   visit url
 end
 DatabaseCleaner.strategy = :truncation
