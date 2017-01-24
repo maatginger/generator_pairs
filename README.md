@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/maatginger/generator_pairs.svg?branch=master)](https://travis-ci.org/maatginger/generator_pairs)
+
 # README
 
 This README would normally document whatever steps are necessary to get the
