@@ -1,6 +1,7 @@
 language: ruby
 rvm:
- - 2.3.1
-
-# uncomment and edit the following line if your project needs to run something other than `rake`:
-script: xvfb-run bundle exec rspec
+- 2.3.1
+script: bundle exec rspec
+env:
+  global:
+    secure: lgG1TOB2WEc9SKrqJ5ew9Y94Le/8VhlmWIqOm9z5r228vcJpLhjMrMXO30GylwXQoYLc/BSmlPKqQIqcnXvgcfnmPpP8pCZ6f3WTJL8G8zn0cYqfMHV0r4II5jnzCxt3c2ioyU1DTJa5pE6FsaQCT9hpqEL/kmsjwN1QCe9PHg64C2f/oUsDfsUtKsdALFdVXpNKzQttGg600PbddR9652VzEAYDTHoS+0kCfP77OiOD+MfhTm3VpaWUUL6gOYYB+MQA5GIosNuxnARG0wuaNg5AgfgIfErNCVvk7e/IspOIv0R/LKwSmiKRNUALsoHUvu+xbKtxoLcSnOIiIFC+MvYKGmpwlPorrDIoJbT91XRqa2JkMdhEwkW0G4yQxD9faPJU6M7EPaA6CKGmDZabAk39XlCjv7c5hBXbUGlGn49jV7ksco9nnmg82kaknsP98hhBtxOQb/VGVaDUtLYyOpeVxePXnktm0BdPGPHyakl5kHAW/KDtsG6i0BA6h7IqBl1s6qnk3yHGEVdottRBnwtdk+f4p3+gBWN03Q8Ey3ty7pRpDbuapkfZ36F0Wsi81PuGF0aLGcPzbhLZhykj9IQkERdyN15s15CHB26Z4AtCXGA/Y6YNtJbTk/ACsmanXjsNGcoKXZ8/Riid8yUDZNf0q+gLEJSTt20sbrssBJ8=
