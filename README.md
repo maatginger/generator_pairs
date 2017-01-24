@@ -1,5 +1,4 @@
 [![Build Status](https://travis-ci.org/maatginger/generator_pairs.svg?branch=master)](https://travis-ci.org/maatginger/generator_pairs)
-
 [![Code Climate](https://codeclimate.com/github/maatginger/generator_pairs/badges/gpa.svg)](https://codeclimate.com/github/maatginger/generator_pairs)
 
 # README
