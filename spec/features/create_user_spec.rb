@@ -1,116 +1,104 @@
-require 'rails_helper'
-require 'support/factory_girl'
-require 'database_cleaner'
+describe 'Students management test' do
 
-def authenticate(url)
-  page.driver.basic_authorize(Figaro.env.ADM_LOG, Figaro.env.ADM_PASS) if page.driver.respond_to?(:basic_authorize)
-  visit url
-end
-DatabaseCleaner.strategy = :truncation
-
-describe 'Students managment' do
-  context 'CRUD functionality' do
-
-
-    it 'Add new user to the list' do
-
-      FactoryGirl.create(:user)
-
-      authenticate(root_path)
-
-
-      expect(page).to have_content ('testname')
-      expect(page).to have_content ('testsecondname')
-
-      page.save_screenshot('create.png')
-    end
-
-    it 'Editing user' do
-
-       FactoryGirl.create(:user)
-       authenticate(root_path)
-
-       within(find(:xpath,"//tr[td//text()[contains(., 'testname')]]")) do
-         click_link 'Edit'
-       end
-
-       fill_in 'user_firstName', with: 'Modify'
-       fill_in 'user_secondName', with: 'ModifyModify'
-       click_button 'Update User'
-
-       expect(page).to have_content ('Modify')
-       expect(page).to have_content ('ModifyModify')
-       page.save_screenshot('modify.png')
-     end
-
-     it 'Destroy of the user' do
-
-       FactoryGirl.create(:user)
-       authenticate(root_path)
-       within(find(:xpath,"//tr[td//text()[contains(., 'testname')]]")) do
-         click_link 'Destroy'
-       end
-
-       expect(page).not_to have_content ('testname')
-       expect(page).not_to have_content ('testsecondname')
-       page.save_screenshot('destroy.png')
-     end
+  before do
+      page.driver&.basic_authorize('admin','admin')
   end
 
-  context 'Validation for CRUD' do
-    it 'Fail to create user with empty field' do
-      authenticate(new_user_path)
+  let!(:user) { User.create(first_name: 'testname1',  last_name: 'testsecondname1') }
 
-      fill_in 'user_firstName', with: ''
-      fill_in 'user_secondName', with: ''
-      click_button 'Create User'
+  context 'Test CRUD functionality' do
 
-      expect(page).to have_content ("can't be blank")
-      page.save_screenshot('create_empty.png')
-    end
-
-
-    it 'Fail to create duplicate user' do
-      authenticate(new_user_path)
-
-      fill_in 'user_firstName', with: 'duplicateName'
-      fill_in 'user_secondName', with: 'duplicateSecondName'
-      click_button 'Create User'
-
-      expect(page).to have_content ('duplicateName')
-      expect(page).to have_content ('duplicateSecondName')
-
-      visit new_user_path
-
-      fill_in 'user_firstName', with: 'duplicateName'
-      fill_in 'user_secondName', with: 'duplicateSecondName'
-      click_button 'Create User'
-
-      expect(page).to have_content ('has already been taken')
-      page.save_screenshot('duplicate.png')
-    end
-  end
-
-  context 'Pairs generator' do
-    it 'Checks whether pairs generator correctly works' do
-
-      (1..6).each do |user|
-        FactoryGirl.create(:user, firstName: "#{user}", secondName: "#{user}")
+      it 'Add new user to the list' do
+        visit "/"
+        assert page.has_content?("All Users")
+        find(:xpath,"//A[@class='btn btn-primary'][text()='New User']").click
+        fill_in ' First name',  with: "FirsTname"
+        fill_in ' Last name', with: "SeconDname"
+        click_on 'Create User'
+        expect(page).to have_content ('FirsTname')
+        expect(page).to have_content ('SeconDname')
       end
-      authenticate(generate_pairs_users_path)
-      result = 0
-      (1..100).each do
-        user = all("tr td")[0].text
-        if user == "1 1"
-          result +=1
+
+      it 'Editing user' do
+         visit "/"
+         assert page.has_content?("All Users")
+         within(find(:xpath,"//tr[td//text()[contains(., 'testname1')]]")) do
+           click_link 'Edit'
+         end
+         fill_in ' First name', with: 'testname1Modify'
+         fill_in ' Last name', with: 'testsecondname1Modify'
+         click_button 'Update User'
+         assert page.has_content?("All Users")
+         expect(page).to have_content ('testname1Modify')
+         expect(page).to have_content ('testsecondname1Modify')
+       end
+
+       it 'Destroy of the user' do
+         visit "/"
+         assert page.has_content?("All Users")
+         within(find(:xpath,"//tr[td//text()[contains(., 'testname')]]")) do
+           click_link 'Destroy'
+         end
+         expect(page).not_to have_content ('testname1')
+         expect(page).not_to have_content ('testsecondname1')
+       end
+
+  end
+
+  context 'Validation test for CRUD' do
+
+      it 'Fail to create user with empty field' do
+        visit "/"
+        assert page.has_content?("All Users")
+        find(:xpath,"//A[@class='btn btn-primary'][text()='New User']").click
+        fill_in ' First name', with: ''
+        fill_in ' Last name', with: ''
+        click_on 'Create User'
+        assert page.has_content?("New User")
+        expect(page).to have_content ("can't be blank")
+      end
+
+
+      it 'Fail to create duplicate user' do
+        visit "/"
+        assert page.has_content?("All Users")
+        find(:xpath,"//A[@class='btn btn-primary'][text()='New User']").click
+        fill_in ' First name',  with: "FirsTname"
+        fill_in ' Last name', with: "SeconDname"
+        click_on 'Create User'
+        assert page.has_content?("All Users")
+        expect(page).to have_content ('FirsTname')
+        expect(page).to have_content ('SeconDname')
+        find(:xpath,"//A[@class='btn btn-primary'][text()='New User']").click
+        fill_in ' First name',  with: "FirsTname"
+        fill_in ' Last name', with: "SeconDname"
+        click_on 'Create User'
+        assert page.has_content?("New User")
+        expect(page).to have_content ('has already been taken')
+      end
+    end
+
+    context 'Pairs generator logic validation' do
+      it 'Check whether pairs generator correctly works' do
+        (1..5).each do |user|
+          FactoryGirl.create(:user, first_name: "#{user}", last_name: "#{user}")
         end
-        click_on('Generate')
+        visit "/"
+        assert page.has_content?("All Users")
+        find(:xpath,"(//A[@href='/users/generate_pairs'][text()='Generator'][text()='Generator'])[1]").click
+        assert page.has_content?("1 Pair")
+        result = 0
+        (1..100).each do
+          user = all("tr td")[0].text
+          if user == "1 1"
+            result +=1
+          end
+          click_on('Generate')
+        end
+        result = (result/100.0).round(2)
+        if result > 0.2 #|| result < 0.16
+          raise Exception.new('Your pairs generator is very very BAAAAAD!')
+        end
       end
-      result = (result/100.0).round(2)
-
-      if result > 0.2 #|| result < 0.16
-        raise Exception.new('Your pairs generator is very very BAAAAAD!')
-      end
-    end
-   end
+     end
 end

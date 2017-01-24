@@ -8,11 +8,11 @@
     - @users.each do |user|
       %tr
         %td
-          = user.firstName
+          = user.first_name
         %td
-          = user.secondName
+          = user.last_name
         %td{:align => "right"}
-          = link_to 'Edit', edit_user_path(user), class: "btn btn-default"
+          = link_to t('shared.edit'), edit_user_path(user), class: "btn btn-default"
         %td
-          = link_to 'Destroy', user_path(user), method: :delete, class: "btn btn-danger", data: {confirm: 'Are your sure?'}
-= link_to 'New User', new_user_path, class: "btn btn-primary"
+          = link_to t('shared.destroy'), user_path(user), method: :delete, class: "btn btn-danger", data: {confirm: 'Are your sure?'}
+= link_to t('shared.new'), new_user_path, class: "btn btn-primary"

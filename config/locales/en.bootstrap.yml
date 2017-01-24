@@ -1,23 +1,19 @@
-# Sample localization file for English. Add more files in this directory for other locales.
-# See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
-
 en:
-  breadcrumbs:
-    application:
-      root: "Index"
-    pages:
-      pages: "Pages"
-  helpers:
-    actions: "Actions"
-    links:
-      back: "Back"
-      cancel: "Cancel"
-      confirm: "Are you sure?"
-      destroy: "Delete"
-      new: "New"
-      edit: "Edit"
-    titles:
-      edit: "Edit %{model}"
-      save: "Save %{model}"
-      new: "New %{model}"
-      delete: "Delete %{model}"
+  users:
+    created: User has been created succesfully.
+    updated: User has been updated succesfully.
+    destroyed: User was successfully destroyed.
+    cant_generate: You can't shuffle odd amount of interns.
+    output: Pair
+  shared:
+    destroy: Destroy
+    edit: Edit
+    show: Show
+    back: Back
+    new: New User
+    generate: Generate
+    generator: Generator
+  title:
+    new: New user
+    edit: Edit User
+    generator: Pairs generator

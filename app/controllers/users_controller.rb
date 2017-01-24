@@ -1,6 +1,4 @@
 class UsersController < ApplicationController
-  http_basic_authenticate_with name: Figaro.env.ADM_LOG, password: Figaro.env.ADM_PASS
-
   before_action :find_user, only: [:edit, :update, :show, :destroy]
 
   def new
@@ -10,6 +8,7 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
+      flash[:alert] = t('users.created')
       redirect_to users_path
     else
       render :new
@@ -20,22 +19,18 @@ class UsersController < ApplicationController
     @users = User.all
   end
 
-  def edit
-  end
-
   def update
     if @user.update(user_params)
+      flash[:alert] = t('users.updated')
       redirect_to users_path
     else
       render :edit
     end
   end
 
-  def show
-  end
-
   def destroy
     if @user.destroy
+      flash[:alert] = t('users.destroyed')
       redirect_to users_path
     else
       redirect_to users_path, error: 'User no delete'
@@ -43,16 +38,15 @@ class UsersController < ApplicationController
   end
 
   def generate_pairs
-    @users = User.all.shuffle
-    if @users.count % 2 != 0
-      flash.alert = "Users count is odd"
+    @users = User.random_pairs!
+    rescue ArgumentError
+      flash[:alert] = t('users.cant_generate')
       redirect_to root_path
-    end
   end
 
   private
     def user_params
-      params[:user].permit(:firstName, :secondName)
+      params[:user].permit(:first_name, :last_name)
     end
 
     def find_user
