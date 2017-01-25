@@ -4,7 +4,7 @@ describe 'Students management test' do
       page.driver&.basic_authorize('admin','admin')
   end
 
-  let!(:user) { User.create(first_name: 'testname1',  last_name: 'testsecondname1') }
+  let!(:user) { User.create(firstName: 'testname1',  secondName: 'testsecondname1') }
 
   context 'Test CRUD functionality' do
 
@@ -12,8 +12,8 @@ describe 'Students management test' do
         visit "/"
         assert page.has_content?("All Users")
         find(:xpath,"//A[@class='btn btn-primary'][text()='New User']").click
-        fill_in ' First name',  with: "FirsTname"
-        fill_in ' Last name', with: "SeconDname"
+        fill_in ' Firstname',  with: "FirsTname"
+        fill_in ' Secondname', with: "SeconDname"
         click_on 'Create User'
         expect(page).to have_content ('FirsTname')
         expect(page).to have_content ('SeconDname')
@@ -25,8 +25,8 @@ describe 'Students management test' do
          within(find(:xpath,"//tr[td//text()[contains(., 'testname1')]]")) do
            click_link 'Edit'
          end
-         fill_in ' First name', with: 'testname1Modify'
-         fill_in ' Last name', with: 'testsecondname1Modify'
+         fill_in ' Firstname', with: 'testname1Modify'
+         fill_in ' Secondname', with: 'testsecondname1Modify'
          click_button 'Update User'
          assert page.has_content?("All Users")
          expect(page).to have_content ('testname1Modify')
@@ -51,8 +51,8 @@ describe 'Students management test' do
         visit "/"
         assert page.has_content?("All Users")
         find(:xpath,"//A[@class='btn btn-primary'][text()='New User']").click
-        fill_in ' First name', with: ''
-        fill_in ' Last name', with: ''
+        fill_in ' Firstname', with: ''
+        fill_in ' Secondname', with: ''
         click_on 'Create User'
         assert page.has_content?("New User")
         expect(page).to have_content ("can't be blank")
@@ -63,15 +63,15 @@ describe 'Students management test' do
         visit "/"
         assert page.has_content?("All Users")
         find(:xpath,"//A[@class='btn btn-primary'][text()='New User']").click
-        fill_in ' First name',  with: "FirsTname"
-        fill_in ' Last name', with: "SeconDname"
+        fill_in ' Firstname',  with: "FirsTname"
+        fill_in ' Secondname', with: "SeconDname"
         click_on 'Create User'
         assert page.has_content?("All Users")
         expect(page).to have_content ('FirsTname')
         expect(page).to have_content ('SeconDname')
         find(:xpath,"//A[@class='btn btn-primary'][text()='New User']").click
-        fill_in ' First name',  with: "FirsTname"
-        fill_in ' Last name', with: "SeconDname"
+        fill_in ' Firstname',  with: "FirsTname"
+        fill_in ' Secondname', with: "SeconDname"
         click_on 'Create User'
         assert page.has_content?("New User")
         expect(page).to have_content ('has already been taken')
@@ -81,7 +81,7 @@ describe 'Students management test' do
     context 'Pairs generator logic validation' do
       it 'Check whether pairs generator correctly works' do
         (1..5).each do |user|
-          FactoryGirl.create(:user, first_name: "#{user}", last_name: "#{user}")
+          FactoryGirl.create(:user, firstName: "#{user}", secondName: "#{user}")
         end
         visit "/"
         assert page.has_content?("All Users")

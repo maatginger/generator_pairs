@@ -8,9 +8,9 @@
     - @users.each do |user|
       %tr
         %td
-          = user.first_name
+          = user.firstName
         %td
-          = user.last_name
+          = user.secondName
         %td{:align => "right"}
           = link_to t('shared.edit'), edit_user_path(user), class: "btn btn-default"
         %td
