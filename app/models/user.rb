@@ -1,6 +1,6 @@
 class User < ApplicationRecord
-  validates :firstName, presence: true
-  validates :secondName , presence: true, uniqueness: { scope: :firstName}
+  validates :first_name, presence: true
+  validates :last_name , presence: true, uniqueness: { scope: :first_name}
 
   def self.random_pairs!
     users = all.to_a.shuffle
