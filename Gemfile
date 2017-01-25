@@ -18,6 +18,7 @@ gem 'twitter-bootstrap-rails'
 gem 'less-rails'
 gem 'simple_form'
 gem 'haml-rails'
+gem 'therubyracer'
 
 
 group :development, :test do
@@ -30,7 +31,6 @@ group :development, :test do
   gem 'factory_girl_rails'
   gem 'rspec-rails', '~> 3.5'
   gem 'figaro'
-  gem 'therubyracer'
 end
 
 
