@@ -19,7 +19,7 @@ gem 'less-rails'
 gem 'simple_form'
 gem 'haml-rails'
 gem 'therubyracer'
-
+gem 'figaro'
 
 group :development, :test do
   gem 'byebug', platform: :mri
@@ -30,7 +30,6 @@ group :development, :test do
   gem 'capybara-screenshot'
   gem 'factory_girl_rails'
   gem 'rspec-rails', '~> 3.5'
-  gem 'figaro'
 end
 
 
